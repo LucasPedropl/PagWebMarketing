@@ -20,11 +20,11 @@ export const Hero: React.FC = () => {
             O ERP completo para conectar empresas e clientes. Automatize planos, gerencie recorrência e reduza a inadimplência com o PagWeb.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="flex items-center justify-center gap-2 bg-brand-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all shadow-xl shadow-brand-900/20 hover:scale-105 transform">
+            <button className="flex items-center justify-center gap-2 bg-brand-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all shadow-xl shadow-brand-900/20 hover:scale-105 transform w-full sm:w-72">
               Começar Agora Grátis
               <ArrowRight size={20} />
             </button>
-            <button className="flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all hover:border-gray-300">
+            <button className="flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all hover:border-gray-300 w-full sm:w-72">
               Ver Demonstração
             </button>
           </div>

@@ -18,11 +18,11 @@ export const CTA: React.FC = () => {
               Junte-se a centenas de empresas que automatizaram suas assinaturas com o PagWeb. Teste grátis por 14 dias.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-brand-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all flex items-center justify-center gap-2">
+              <button className="bg-white text-brand-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all flex items-center justify-center gap-2 w-full sm:w-72">
                 Começar Teste Grátis
                 <ArrowRight size={20} />
               </button>
-              <button className="bg-transparent border border-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all">
+              <button className="bg-transparent border border-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all w-full sm:w-72">
                 Falar com Consultor
               </button>
             </div>
