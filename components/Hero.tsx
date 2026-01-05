@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { PagWeb } from './pagweb/PagWeb';
+import { DashboardPage } from './pagweb/DashboardPage';
 
 export const Hero: React.FC = () => {
   return (
@@ -40,52 +42,13 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Dashboard Preview Mockup */}
-        <div className="relative mt-12 mx-auto max-w-5xl">
+        {/* Live Code Dashboard Simulator */}
+        <div className="relative mt-12 mx-auto max-w-6xl px-2 sm:px-4">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20"></div>
-          <div className="relative bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
-            {/* Header Mockup */}
-            <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4">
-               <div className="flex gap-2">
-                 <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                 <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                 <div className="w-3 h-3 rounded-full bg-green-400"></div>
-               </div>
-               <div className="h-6 w-64 bg-gray-100 rounded-md"></div>
-            </div>
-            {/* Content Mockup - Simulating the Dashboard Screenshot provided */}
-            <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6 bg-gray-50 min-h-[400px]">
-                {/* Sidebar Mockup */}
-                <div className="hidden md:block col-span-1 bg-brand-900 rounded-lg h-full p-4 space-y-4">
-                    <div className="h-8 w-3/4 bg-slate-700 rounded mb-6"></div>
-                    <div className="h-4 w-full bg-slate-800 rounded"></div>
-                    <div className="h-4 w-5/6 bg-slate-800 rounded"></div>
-                    <div className="h-4 w-4/6 bg-slate-800 rounded"></div>
-                    <div className="h-4 w-full bg-slate-800 rounded"></div>
-                </div>
-                {/* Main Content Mockup */}
-                <div className="col-span-1 md:col-span-3 space-y-6">
-                    <div className="flex justify-between items-center">
-                        <div className="h-8 w-48 bg-gray-200 rounded"></div>
-                        <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
-                    </div>
-                    {/* Stats Cards */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[1,2,3,4].map(i => (
-                            <div key={i} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                                <div className="h-4 w-20 bg-gray-100 rounded mb-2"></div>
-                                <div className="h-8 w-24 bg-blue-100 rounded"></div>
-                            </div>
-                        ))}
-                    </div>
-                    {/* Chart Area */}
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-64 flex items-end gap-4 pb-4 px-4">
-                        {[40, 65, 45, 80, 55, 90, 70, 85].map((h, idx) => (
-                             <div key={idx} className="w-full bg-blue-500 rounded-t-sm opacity-80 hover:opacity-100 transition-opacity" style={{ height: `${h}%` }}></div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+          <div className="relative transform hover:scale-[1.01] transition-transform duration-500">
+            <PagWeb>
+               <DashboardPage />
+            </PagWeb>
           </div>
           
           {/* Decorative Elements */}
