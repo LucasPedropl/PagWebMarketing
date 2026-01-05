@@ -11,18 +11,18 @@ const StatCard = ({ title, value, trend, trendValue, icon: Icon, color, variant 
   const isMobile = variant === 'mobile';
   
   return (
-    <div className={`bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 min-w-0 ${isMobile ? 'p-2.5' : 'p-3 xl:p-5'}`}>
+    <div className={`bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 min-w-0 ${isMobile ? 'p-2.5' : 'p-3 xl:p-4'}`}>
       <div className="flex justify-between items-start mb-1.5">
         <div className="min-w-0 flex-1 mr-1">
-          <p className={`text-gray-500 font-medium mb-0.5 truncate ${isMobile ? 'text-[9px]' : 'text-[10px] xl:text-sm'}`}>{title}</p>
-          {/* Reduced desktop font size from text-xl to text-lg/text-base to prevent clipping in mockup */}
-          <h3 className={`font-bold text-gray-900 tracking-tight truncate ${isMobile ? 'text-sm' : 'text-lg xl:text-2xl'}`}>{value}</h3>
+          <p className={`text-gray-500 font-medium mb-0.5 truncate ${isMobile ? 'text-[9px]' : 'text-[10px] xl:text-xs'}`}>{title}</p>
+          {/* Reduced desktop font size significantly to prevent clipping in the laptop mockup frame */}
+          <h3 className={`font-bold text-gray-900 tracking-tight truncate ${isMobile ? 'text-sm' : 'text-sm lg:text-base'}`}>{value}</h3>
         </div>
-        <div className={`rounded-lg ${color} bg-opacity-10 shrink-0 ${isMobile ? 'p-1' : 'p-1.5 xl:p-2'}`}>
-          <Icon className={`${color.replace('bg-', 'text-').replace('100', '600')} ${isMobile ? 'w-3 h-3' : 'w-4 h-4 xl:w-5 xl:h-5'}`} />
+        <div className={`rounded-lg ${color} bg-opacity-10 shrink-0 ${isMobile ? 'p-1' : 'p-1.5'}`}>
+          <Icon className={`${color.replace('bg-', 'text-').replace('100', '600')} ${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
         </div>
       </div>
-      <div className={`flex items-center gap-1 font-medium flex-wrap ${isMobile ? 'text-[8px]' : 'text-[9px] xl:text-xs'}`}>
+      <div className={`flex items-center gap-1 font-medium flex-wrap ${isMobile ? 'text-[8px]' : 'text-[9px] xl:text-[10px]'}`}>
         <span className={`${trend === 'up' ? 'text-emerald-600' : 'text-rose-600'} flex items-center gap-0.5 bg-opacity-10 px-1 py-0.5 rounded whitespace-nowrap`}>
           {trend === 'up' ? '↗' : '↘'} {trendValue}
         </span>
@@ -75,7 +75,8 @@ const LineChart = ({ variant }: { variant: string }) => (
 );
 
 const DonutChart = ({ variant }: { variant: string }) => (
-  <div className={`flex flex-col items-center justify-center h-full w-full ${variant === 'mobile' ? 'gap-2' : ''}`}>
+  <div className={`flex ${variant === 'mobile' ? 'flex-row items-center w-full gap-2' : 'flex-col items-center justify-center h-full w-full'}`}>
+    {/* Chart Circle */}
     <div className={`relative group shrink-0 ${variant === 'mobile' ? 'w-20 h-20' : 'w-32 h-32 xl:w-40 xl:h-40'}`}>
       <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90 transition-transform duration-700 hover:scale-105">
         <path className="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3.8" />
@@ -85,36 +86,36 @@ const DonutChart = ({ variant }: { variant: string }) => (
         <path className="text-rose-500" strokeDasharray="10, 100" strokeDashoffset="-90" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3.8" />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-         <span className={`font-bold text-gray-800 ${variant === 'mobile' ? 'text-base' : 'text-2xl xl:text-3xl'}`}>147</span>
-         <span className={`text-gray-500 font-medium ${variant === 'mobile' ? 'text-[7px]' : 'text-[10px] xl:text-xs'}`}>Total</span>
+         <span className={`font-bold text-gray-800 ${variant === 'mobile' ? 'text-xs' : 'text-2xl xl:text-3xl'}`}>147</span>
+         <span className={`text-gray-500 font-medium ${variant === 'mobile' ? 'text-[6px]' : 'text-[10px] xl:text-xs'}`}>Total</span>
       </div>
     </div>
     
     {/* Legend */}
-    <div className={`w-full px-0 ${variant === 'mobile' ? 'mt-1 w-full' : 'mt-4 xl:mt-6'}`}>
-        <div className={`grid gap-x-2 gap-y-1 w-full ${variant === 'mobile' ? 'grid-cols-2 text-[7px]' : 'grid-cols-2 text-[10px] xl:text-xs'}`}>
-          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
+    <div className={`w-full ${variant === 'mobile' ? 'flex-1 pl-2' : 'mt-4 xl:mt-6 px-0'}`}>
+        <div className={`grid gap-x-2 gap-y-1 w-full ${variant === 'mobile' ? 'grid-cols-1 text-[8px]' : 'grid-cols-2 text-[10px] xl:text-xs'}`}>
+          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50 w-full">
               <div className="flex items-center gap-1 min-w-0">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0"></div>
                   <span className="text-gray-600 truncate">Web</span>
               </div>
               <span className="font-bold ml-1">50%</span>
           </div>
-          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
+          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50 w-full">
               <div className="flex items-center gap-1 min-w-0">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></div>
                   <span className="text-gray-600 truncate">Ind.</span>
               </div>
               <span className="font-bold ml-1">25%</span>
           </div>
-          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
+          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50 w-full">
               <div className="flex items-center gap-1 min-w-0">
                   <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></div>
                   <span className="text-gray-600 truncate">Soc.</span>
               </div>
               <span className="font-bold ml-1">15%</span>
           </div>
-          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
+          <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50 w-full">
               <div className="flex items-center gap-1 min-w-0">
                   <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></div>
                   <span className="text-gray-600 truncate">Out.</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, Menu } from 'lucide-react';
+import { Search, Bell, Menu, Wallet } from 'lucide-react';
 
 interface TopBarProps {
   forceMobile?: boolean;
@@ -12,7 +12,7 @@ export const TopBar: React.FC<TopBarProps> = ({ forceMobile = false }) => {
       <div className="flex items-center gap-4">
          <div className={`flex items-center gap-3 ${forceMobile ? 'flex' : 'md:hidden'} text-slate-900`}>
              <div className="bg-brand-900 p-1.5 rounded text-white shadow-sm">
-                <Menu size={18} />
+                <Wallet size={18} />
              </div>
              <span className="font-bold text-base tracking-tight">PagWeb</span>
          </div>
