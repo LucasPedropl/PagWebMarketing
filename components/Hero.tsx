@@ -1,26 +1,79 @@
-import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Maximize2, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, CheckCircle2, Maximize2, X, RotateCcw } from 'lucide-react';
 import { PagWeb } from './pagweb/PagWeb';
 import { DashboardPage } from './pagweb/DashboardPage';
 
 export const Hero: React.FC = () => {
   const [fullscreenView, setFullscreenView] = useState<'desktop' | 'mobile' | null>(null);
 
+  // Lock body scroll when fullscreen is active
+  useEffect(() => {
+    if (fullscreenView) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [fullscreenView]);
+
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
       {/* Fullscreen Overlay */}
       {fullscreenView && (
-        <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
-          <div className={`relative bg-white shadow-2xl overflow-hidden flex flex-col ${fullscreenView === 'mobile' ? 'w-[375px] h-[812px] rounded-[2.5rem] border-8 border-gray-800' : 'w-[95%] h-[90%] rounded-xl'}`}>
-            <button 
-              onClick={() => setFullscreenView(null)}
-              className="absolute top-4 right-4 z-[60] bg-gray-900/50 hover:bg-gray-900 text-white p-2 rounded-full transition-colors"
-            >
-              <X size={24} />
-            </button>
-            <PagWeb variant={fullscreenView}>
-              <DashboardPage variant={fullscreenView} />
-            </PagWeb>
+        <div 
+          className="fixed inset-0 z-[100] bg-gray-900/95 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300"
+          onClick={() => setFullscreenView(null)} // Click outside to close
+        >
+          {/* Close Button - Outside the container */}
+          <button 
+            onClick={() => setFullscreenView(null)}
+            className="fixed top-6 right-6 z-[110] bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors cursor-pointer"
+            aria-label="Fechar tela cheia"
+          >
+            <X size={28} />
+          </button>
+
+          {/* Orientation Hint for Mobile Desktop View */}
+          {fullscreenView === 'desktop' && (
+             <div className="md:hidden fixed top-6 left-6 text-white/50 text-xs flex items-center gap-2 pointer-events-none z-[110]">
+                <RotateCcw size={14} />
+                <span>Modo Paisagem</span>
+             </div>
+          )}
+
+          {/* Container Content */}
+          <div 
+            onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside app
+            className={`
+              relative bg-white shadow-2xl overflow-hidden flex flex-col transition-all
+              ${fullscreenView === 'mobile' 
+                ? 'w-full max-w-[375px] h-full max-h-[92vh] rounded-[2rem] border-[8px] border-gray-800' 
+                // Desktop View on Mobile:
+                // 1. rotate-90: Turns the container sideways.
+                // 2. w-[96vh]: Uses 96% of the DEVICE HEIGHT as the container width (visual height).
+                // 3. h-[94vw]: Uses 94% of DEVICE WIDTH as the container height (visual width).
+                : 'w-[96vh] h-[94vw] rotate-90 md:rotate-0 md:w-[90vw] md:max-w-[1400px] md:h-[85vh] rounded-xl'
+              }
+            `}
+          >
+            {/* Scaling Wrapper Logic:
+                On Mobile (when viewing Desktop mode):
+                1. We increase the virtual size to w-[178%] (approx 1.78x larger).
+                2. We scale it down by scale-[0.56] to fit back into the container.
+                Result: Simulates a high-res wide monitor (like 1080p) on a small screen.
+            */}
+            <div className={`
+              w-full h-full
+              ${fullscreenView === 'desktop' 
+                ? 'md:w-full md:h-full md:scale-100 w-[178%] h-[178%] scale-[0.56] origin-top-left' 
+                : ''}
+            `}>
+              <PagWeb variant={fullscreenView}>
+                <DashboardPage variant={fullscreenView} />
+              </PagWeb>
+            </div>
           </div>
         </div>
       )}
@@ -74,7 +127,7 @@ export const Hero: React.FC = () => {
             {/* Fullscreen Button */}
             <button 
                 onClick={(e) => { e.stopPropagation(); setFullscreenView('desktop'); }}
-                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/laptop:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-sm"
+                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/laptop:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-sm z-50 pointer-events-auto"
             >
                 <Maximize2 size={16} />
                 Expandir
@@ -116,7 +169,7 @@ export const Hero: React.FC = () => {
             {/* Fullscreen Button */}
             <button 
                 onClick={(e) => { e.stopPropagation(); setFullscreenView('mobile'); }}
-                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/phone:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-xs md:text-sm"
+                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/phone:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-xs md:text-sm z-50 pointer-events-auto"
             >
                 <Maximize2 size={16} />
                 Expandir
