@@ -8,9 +8,13 @@ const MobileNavItem = ({ icon: Icon, label, active }: { icon: any, label: string
   </div>
 );
 
-export const MobileNav: React.FC = () => {
+interface MobileNavProps {
+  className?: string;
+}
+
+export const MobileNav: React.FC<MobileNavProps> = ({ className = "md:hidden" }) => {
   return (
-    <div className="md:hidden bg-white border-t border-gray-200 flex justify-between items-center px-2 pb-safe shrink-0 h-16 z-20">
+    <div className={`${className} bg-white border-t border-gray-200 flex justify-between items-center px-4 pb-safe shrink-0 h-16 z-20`}>
       <MobileNavItem icon={LayoutDashboard} label="Inicio" active />
       <MobileNavItem icon={Users} label="Clientes" />
       <MobileNavItem icon={CreditCard} label="Assinar" />

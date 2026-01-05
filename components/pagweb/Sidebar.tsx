@@ -13,16 +13,16 @@ interface SidebarProps {
 const SidebarItem = ({ icon: Icon, label, active, collapsed }: { icon: any, label: string, active?: boolean, collapsed: boolean }) => (
   <div 
     className={`
-      flex items-center px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group relative 
+      flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 group relative 
       ${active ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'} 
       ${collapsed ? 'justify-center gap-0' : 'gap-3'}
     `}
   >
-    <Icon size={20} strokeWidth={active ? 2.5 : 2} className="shrink-0" />
+    <Icon size={18} strokeWidth={active ? 2.5 : 2} className="shrink-0" />
     
     {/* Text Label Wrapper */}
     <div className={`overflow-hidden transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
-        <span className="whitespace-nowrap origin-left">
+        <span className="whitespace-nowrap origin-left text-sm font-medium">
         {label}
         </span>
     </div>
@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
     <div 
       className={`
         bg-slate-900 flex flex-col transition-all duration-300 ease-in-out shrink-0 relative hidden md:flex h-full border-r border-slate-800 z-30
-        ${collapsed ? 'w-20' : 'w-64'} 
+        ${collapsed ? 'w-16' : 'w-52'} 
         overflow-visible
       `}
     >
@@ -58,20 +58,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
       </button>
 
       {/* Logo Area - Height matches TopBar (h-16) */}
-      <div className={`h-16 flex items-center text-white mb-2 transition-all duration-300 ${collapsed ? 'justify-center px-0' : 'px-6 gap-3'}`}>
-         <div className="bg-brand-500 p-1.5 rounded-lg shrink-0 transition-transform duration-300 hover:rotate-12">
-            <Wallet size={20} className="text-white" />
+      <div className={`h-16 flex items-center text-white mb-2 transition-all duration-300 ${collapsed ? 'justify-center px-0' : 'px-5 gap-2'}`}>
+         <div className="bg-brand-500 p-1 rounded-lg shrink-0 transition-transform duration-300 hover:rotate-12">
+            <Wallet size={18} className="text-white" />
          </div>
          
          <div className={`overflow-hidden transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
-             <span className="font-bold text-xl tracking-tight whitespace-nowrap block">
+             <span className="font-bold text-lg tracking-tight whitespace-nowrap block">
              PagWeb
              </span>
          </div>
       </div>
 
-      {/* Navigation - Added inner scroll handling */}
-      <div className="flex-1 px-4 space-y-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
+      {/* Navigation - Removed overflow-y-auto to allow tooltips to pop out freely */}
+      <div className="flex-1 px-3 space-y-1 overflow-visible">
         <SidebarItem icon={LayoutDashboard} label="Overview" active collapsed={collapsed} />
         <SidebarItem icon={Users} label="Clientes" collapsed={collapsed} />
         <SidebarItem icon={Layers} label="Planos" collapsed={collapsed} />
@@ -83,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
       </div>
 
       {/* Footer Settings */}
-      <div className="p-4 border-t border-slate-800 mt-auto">
+      <div className="p-3 border-t border-slate-800 mt-auto">
          <SidebarItem icon={Settings} label="Configurações" collapsed={collapsed} />
       </div>
     </div>

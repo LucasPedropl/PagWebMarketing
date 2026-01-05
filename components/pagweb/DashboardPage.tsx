@@ -1,30 +1,39 @@
 import React from 'react';
 import { DollarSign, Users, Activity, FileText, MoreHorizontal } from 'lucide-react';
 
+interface DashboardPageProps {
+  variant?: 'desktop' | 'mobile';
+}
+
 // --- Sub-components for Dashboard ---
 
-const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }: any) => (
-  <div className="bg-white p-4 xl:p-5 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 min-w-0">
-    <div className="flex justify-between items-start mb-3 xl:mb-4">
-      <div className="min-w-0 flex-1 mr-2">
-        <p className="text-gray-500 text-xs xl:text-sm font-medium mb-1 truncate">{title}</p>
-        <h3 className="text-xl xl:text-2xl font-bold text-gray-900 tracking-tight truncate">{value}</h3>
+const StatCard = ({ title, value, trend, trendValue, icon: Icon, color, variant }: any) => {
+  const isMobile = variant === 'mobile';
+  
+  return (
+    <div className={`bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 min-w-0 ${isMobile ? 'p-2.5' : 'p-3 xl:p-5'}`}>
+      <div className="flex justify-between items-start mb-1.5">
+        <div className="min-w-0 flex-1 mr-1">
+          <p className={`text-gray-500 font-medium mb-0.5 truncate ${isMobile ? 'text-[9px]' : 'text-[10px] xl:text-sm'}`}>{title}</p>
+          {/* Reduced desktop font size from text-xl to text-lg/text-base to prevent clipping in mockup */}
+          <h3 className={`font-bold text-gray-900 tracking-tight truncate ${isMobile ? 'text-sm' : 'text-lg xl:text-2xl'}`}>{value}</h3>
+        </div>
+        <div className={`rounded-lg ${color} bg-opacity-10 shrink-0 ${isMobile ? 'p-1' : 'p-1.5 xl:p-2'}`}>
+          <Icon className={`${color.replace('bg-', 'text-').replace('100', '600')} ${isMobile ? 'w-3 h-3' : 'w-4 h-4 xl:w-5 xl:h-5'}`} />
+        </div>
       </div>
-      <div className={`p-1.5 xl:p-2 rounded-lg ${color} bg-opacity-10 shrink-0`}>
-        <Icon className={`${color.replace('bg-', 'text-').replace('100', '600')} w-4 h-4 xl:w-5 xl:h-5`} />
+      <div className={`flex items-center gap-1 font-medium flex-wrap ${isMobile ? 'text-[8px]' : 'text-[9px] xl:text-xs'}`}>
+        <span className={`${trend === 'up' ? 'text-emerald-600' : 'text-rose-600'} flex items-center gap-0.5 bg-opacity-10 px-1 py-0.5 rounded whitespace-nowrap`}>
+          {trend === 'up' ? '↗' : '↘'} {trendValue}
+        </span>
+        <span className="text-gray-400 whitespace-nowrap truncate">vs. anterior</span>
       </div>
     </div>
-    <div className="flex items-center gap-1 xl:gap-2 text-[10px] xl:text-xs font-medium flex-wrap">
-      <span className={`${trend === 'up' ? 'text-emerald-600' : 'text-rose-600'} flex items-center gap-0.5 bg-opacity-10 px-1.5 py-0.5 rounded whitespace-nowrap`}>
-        {trend === 'up' ? '↗' : '↘'} {trendValue}
-      </span>
-      <span className="text-gray-400 whitespace-nowrap truncate">vs. anterior</span>
-    </div>
-  </div>
-);
+  );
+};
 
-const LineChart = () => (
-  <div className="relative h-48 w-full group">
+const LineChart = ({ variant }: { variant: string }) => (
+  <div className={`relative w-full group ${variant === 'mobile' ? 'h-24' : 'h-48'}`}>
     {/* Grid Lines */}
     <div className="absolute inset-0 flex flex-col justify-between text-xs text-gray-300 pointer-events-none">
       <div className="border-b border-gray-50 border-dashed w-full h-0"></div>
@@ -40,7 +49,7 @@ const LineChart = () => (
         d="M0,150 C50,100 100,50 200,40 C300,30 400,80 500,70 C600,60 700,90 800,120" 
         fill="none" 
         stroke="#3b82f6" 
-        strokeWidth="4" 
+        strokeWidth={variant === 'mobile' ? "8" : "4"} 
         vectorEffect="non-scaling-stroke"
         className="drop-shadow-sm"
       />
@@ -58,22 +67,16 @@ const LineChart = () => (
       </defs>
     </svg>
     
-    {/* Tooltip Simulation on Hover */}
-    <div className="absolute top-10 left-[40%] bg-slate-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none transform -translate-x-1/2 shadow-lg z-10">
-       R$ 42.000
-       <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
-    </div>
-
     {/* X Axis Labels */}
-    <div className="absolute bottom-[-20px] left-0 right-0 flex justify-between text-[10px] xl:text-xs text-gray-400 font-medium px-2">
+    <div className={`absolute bottom-[-16px] left-0 right-0 flex justify-between text-gray-400 font-medium px-2 ${variant === 'mobile' ? 'text-[7px]' : 'text-[10px] xl:text-xs'}`}>
       <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span>
     </div>
   </div>
 );
 
-const DonutChart = () => (
-  <div className="flex flex-col items-center justify-center h-full">
-    <div className="relative w-32 h-32 xl:w-40 xl:h-40 group shrink-0">
+const DonutChart = ({ variant }: { variant: string }) => (
+  <div className={`flex flex-col items-center justify-center h-full w-full ${variant === 'mobile' ? 'gap-2' : ''}`}>
+    <div className={`relative group shrink-0 ${variant === 'mobile' ? 'w-20 h-20' : 'w-32 h-32 xl:w-40 xl:h-40'}`}>
       <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90 transition-transform duration-700 hover:scale-105">
         <path className="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3.8" />
         <path className="text-blue-500" strokeDasharray="50, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3.8" />
@@ -82,38 +85,39 @@ const DonutChart = () => (
         <path className="text-rose-500" strokeDasharray="10, 100" strokeDashoffset="-90" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3.8" />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-         <span className="text-2xl xl:text-3xl font-bold text-gray-800">147</span>
-         <span className="text-[10px] xl:text-xs text-gray-500 font-medium">Total</span>
+         <span className={`font-bold text-gray-800 ${variant === 'mobile' ? 'text-base' : 'text-2xl xl:text-3xl'}`}>147</span>
+         <span className={`text-gray-500 font-medium ${variant === 'mobile' ? 'text-[7px]' : 'text-[10px] xl:text-xs'}`}>Total</span>
       </div>
     </div>
-    {/* Adjusted Legend to prevent clipping */}
-    <div className="w-full mt-4 xl:mt-6 px-0">
-        <div className="grid grid-cols-2 gap-x-2 gap-y-2 text-[10px] xl:text-xs">
+    
+    {/* Legend */}
+    <div className={`w-full px-0 ${variant === 'mobile' ? 'mt-1 w-full' : 'mt-4 xl:mt-6'}`}>
+        <div className={`grid gap-x-2 gap-y-1 w-full ${variant === 'mobile' ? 'grid-cols-2 text-[7px]' : 'grid-cols-2 text-[10px] xl:text-xs'}`}>
           <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
-              <div className="flex items-center gap-1.5 min-w-0">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
-                  <span className="text-gray-600 truncate">Website</span>
+              <div className="flex items-center gap-1 min-w-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0"></div>
+                  <span className="text-gray-600 truncate">Web</span>
               </div>
               <span className="font-bold ml-1">50%</span>
           </div>
           <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
-              <div className="flex items-center gap-1.5 min-w-0">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></div>
-                  <span className="text-gray-600 truncate">Indicação</span>
+              <div className="flex items-center gap-1 min-w-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></div>
+                  <span className="text-gray-600 truncate">Ind.</span>
               </div>
               <span className="font-bold ml-1">25%</span>
           </div>
           <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
-              <div className="flex items-center gap-1.5 min-w-0">
-                  <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></div>
-                  <span className="text-gray-600 truncate">Social</span>
+              <div className="flex items-center gap-1 min-w-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></div>
+                  <span className="text-gray-600 truncate">Soc.</span>
               </div>
               <span className="font-bold ml-1">15%</span>
           </div>
           <div className="flex items-center justify-between p-1 rounded hover:bg-gray-50">
-              <div className="flex items-center gap-1.5 min-w-0">
-                  <div className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></div>
-                  <span className="text-gray-600 truncate">Outros</span>
+              <div className="flex items-center gap-1 min-w-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></div>
+                  <span className="text-gray-600 truncate">Out.</span>
               </div>
               <span className="font-bold ml-1">10%</span>
           </div>
@@ -124,66 +128,75 @@ const DonutChart = () => (
 
 // --- Main Page Component ---
 
-export const DashboardPage: React.FC = () => {
+export const DashboardPage: React.FC<DashboardPageProps> = ({ variant = 'desktop' }) => {
+  const isMobile = variant === 'mobile';
+
   return (
-    <div className="p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6 lg:space-y-8 animate-in fade-in duration-500">
-      <div className="hidden md:block">
-          <p className="text-gray-500 text-sm xl:text-base">Bem-vindo de volta! Aqui está o que está acontecendo hoje.</p>
+    <div className={`
+        mx-auto animate-in fade-in duration-500 
+        ${isMobile ? 'p-2 space-y-3 w-full' : 'p-3 md:p-6 lg:p-8 space-y-6 lg:space-y-8 max-w-[1600px]'}
+    `}>
+      <div className={`${isMobile ? 'hidden' : 'hidden md:block'}`}>
+          <p className="text-gray-500 text-[10px] xl:text-base">Bem-vindo de volta! Aqui está o que está acontecendo hoje.</p>
       </div>
 
-      {/* Stats Grid - Responsive grid that handles smaller spaces better */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-6">
+      {/* Stats Grid */}
+      <div className={`grid gap-2 xl:gap-6 ${isMobile ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-4'}`}>
           <StatCard 
-            title="Faturamento Total" 
+            title="Faturamento" 
             value="R$ 328k" 
             trend="up" 
             trendValue="+12%" 
             icon={DollarSign} 
             color="bg-blue-100 text-blue-600" 
+            variant={variant}
           />
           <StatCard 
-            title="Clientes Ativos" 
+            title="Ativos" 
             value="147" 
             trend="up" 
             trendValue="+8" 
             icon={Users} 
             color="bg-purple-100 text-purple-600" 
+            variant={variant}
           />
           <StatCard 
-            title="Taxa de Conversão" 
+            title="Conversão" 
             value="15.3%" 
             trend="down" 
             trendValue="-2.1%" 
             icon={Activity} 
             color="bg-emerald-100 text-emerald-600" 
+            variant={variant}
           />
           <StatCard 
-            title="Inadimplência" 
+            title="Atrasados" 
             value="23" 
             trend="down" 
-            trendValue="12 parc" 
+            trendValue="12" 
             icon={FileText} 
             color="bg-orange-100 text-orange-600" 
+            variant={variant}
           />
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 xl:gap-6">
+      <div className={`grid gap-3 xl:gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-3'}`}>
           {/* Main Chart */}
-          <div className="bg-white p-4 xl:p-6 rounded-xl border border-gray-100 shadow-sm lg:col-span-2 hover:shadow-md transition-shadow min-w-0">
-            <div className="flex justify-between items-center mb-4 xl:mb-6">
-                <h3 className="font-bold text-gray-900 text-base xl:text-lg">Tendência de Faturamento</h3>
-                <button className="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded"><MoreHorizontal size={20} /></button>
+          <div className={`bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 hover:shadow-md transition-shadow min-w-0 ${isMobile ? 'p-2.5 pb-5' : 'p-3 xl:p-6'}`}>
+            <div className={`flex justify-between items-center ${isMobile ? 'mb-2' : 'mb-3 xl:mb-6'}`}>
+                <h3 className={`font-bold text-gray-900 ${isMobile ? 'text-xs' : 'text-sm xl:text-lg'}`}>Faturamento</h3>
+                <button className="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded"><MoreHorizontal size={isMobile ? 14 : 20} /></button>
             </div>
-            <LineChart />
+            <LineChart variant={variant} />
           </div>
           
           {/* Secondary Chart */}
-          <div className="bg-white p-4 xl:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow min-w-0">
-            <div className="flex justify-between items-center mb-4 xl:mb-6">
-                <h3 className="font-bold text-gray-900 text-base xl:text-lg">Fontes</h3>
+          <div className={`bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow min-w-0 ${isMobile ? 'p-2.5' : 'p-3 xl:p-6'}`}>
+            <div className={`flex justify-between items-center ${isMobile ? 'mb-2' : 'mb-3 xl:mb-6'}`}>
+                <h3 className={`font-bold text-gray-900 ${isMobile ? 'text-xs' : 'text-sm xl:text-lg'}`}>Fontes</h3>
             </div>
-            <DonutChart />
+            <DonutChart variant={variant} />
           </div>
       </div>
     </div>
