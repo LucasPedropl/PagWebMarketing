@@ -14,7 +14,7 @@ interface MobileNavProps {
 
 export const MobileNav: React.FC<MobileNavProps> = ({ className = "md:hidden" }) => {
   return (
-    <div className={`${className} bg-white border-t border-gray-200 flex justify-between items-center px-4 pb-safe shrink-0 h-16 z-20`}>
+    <div className={`${className} bg-white border-t border-gray-200 flex justify-between items-center px-4 py-2 shrink-0 h-16 z-20`}>
       <MobileNavItem icon={LayoutDashboard} label="Inicio" active />
       <MobileNavItem icon={Users} label="Clientes" />
       <MobileNavItem icon={CreditCard} label="Assinar" />

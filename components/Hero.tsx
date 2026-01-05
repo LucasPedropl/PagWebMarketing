@@ -1,11 +1,30 @@
-import React from 'react';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CheckCircle2, Maximize2, X } from 'lucide-react';
 import { PagWeb } from './pagweb/PagWeb';
 import { DashboardPage } from './pagweb/DashboardPage';
 
 export const Hero: React.FC = () => {
+  const [fullscreenView, setFullscreenView] = useState<'desktop' | 'mobile' | null>(null);
+
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+      {/* Fullscreen Overlay */}
+      {fullscreenView && (
+        <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
+          <div className={`relative bg-white shadow-2xl overflow-hidden flex flex-col ${fullscreenView === 'mobile' ? 'w-[375px] h-[812px] rounded-[2.5rem] border-8 border-gray-800' : 'w-[95%] h-[90%] rounded-xl'}`}>
+            <button 
+              onClick={() => setFullscreenView(null)}
+              className="absolute top-4 right-4 z-[60] bg-gray-900/50 hover:bg-gray-900 text-white p-2 rounded-full transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <PagWeb variant={fullscreenView}>
+              <DashboardPage variant={fullscreenView} />
+            </PagWeb>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold mb-6 border border-blue-100">
@@ -50,7 +69,17 @@ export const Hero: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-full bg-blue-500/20 rounded-full blur-[100px] -z-10"></div>
 
           {/* LAPTOP (Desktop View) */}
-          <div className="laptop-mockup absolute left-1/2 -translate-x-1/2 md:-translate-x-[60%] lg:-translate-x-[60%] w-[90%] md:w-[70%] max-w-[900px] z-10 transition-all duration-500 ease-in-out hover:z-30 hover:scale-[1.02] cursor-default">
+          <div className="laptop-mockup absolute left-1/2 -translate-x-1/2 md:-translate-x-[60%] lg:-translate-x-[60%] w-[90%] md:w-[70%] max-w-[900px] z-10 transition-all duration-500 ease-in-out hover:z-30 hover:scale-[1.02] cursor-default group/laptop">
+            
+            {/* Fullscreen Button */}
+            <button 
+                onClick={(e) => { e.stopPropagation(); setFullscreenView('desktop'); }}
+                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/laptop:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-sm"
+            >
+                <Maximize2 size={16} />
+                Expandir
+            </button>
+
             {/* Screen Bezel */}
             <div className="bg-[#1a1b1e] rounded-t-2xl p-2 md:p-3 shadow-2xl ring-1 ring-white/10 relative">
                {/* Camera Notch */}
@@ -59,11 +88,20 @@ export const Hero: React.FC = () => {
                </div>
                
                {/* Screen Content */}
-               <div className="bg-white rounded-lg overflow-hidden h-[250px] sm:h-[400px] md:h-[500px] w-full">
-                  <PagWeb variant="desktop">
-                     {/* Pass 'desktop' variant to enforce 4-col grid even in smaller mockup container */}
-                     <DashboardPage variant="desktop" />
-                  </PagWeb>
+               <div className="bg-white rounded-lg overflow-hidden h-[250px] sm:h-[400px] md:h-[500px] w-full relative">
+                  {/* Scaling Wrapper for Desktop */}
+                  {/* Logic: Force a Virtual Resolution of ~1024px width regardless of device size.
+                      Mobile (350px physical): Scale ~0.34 (350/1024). Wrapper 294%.
+                      Desktop (700px physical): Scale ~0.68 (700/1024). Wrapper 147%.
+                  */}
+                  <div className="origin-top-left transform bg-white
+                      scale-[0.34] w-[294%] h-[294%]
+                      md:scale-[0.68] md:w-[147%] md:h-[147%]
+                  ">
+                    <PagWeb variant="desktop">
+                       <DashboardPage variant="desktop" />
+                    </PagWeb>
+                  </div>
                </div>
             </div>
             {/* Keyboard Base */}
@@ -73,7 +111,17 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* PHONE (Mobile View) */}
-          <div className="phone-mockup absolute bottom-[-20px] md:bottom-[50px] right-4 md:right-[5%] lg:right-[12%] w-[140px] sm:w-[200px] md:w-[260px] z-20 transition-all duration-500 ease-in-out hover:z-30 hover:scale-105 hover:-translate-y-4 cursor-grab active:cursor-grabbing">
+          <div className="phone-mockup absolute bottom-[-20px] md:bottom-[50px] right-4 md:right-[5%] lg:right-[12%] w-[140px] sm:w-[200px] md:w-[260px] z-20 transition-all duration-500 ease-in-out hover:z-30 hover:scale-105 hover:-translate-y-4 cursor-grab active:cursor-grabbing group/phone">
+            
+            {/* Fullscreen Button */}
+            <button 
+                onClick={(e) => { e.stopPropagation(); setFullscreenView('mobile'); }}
+                className="absolute -top-12 right-0 bg-white text-slate-700 p-2 rounded-lg shadow-lg opacity-0 group-hover/phone:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-medium text-xs md:text-sm"
+            >
+                <Maximize2 size={16} />
+                Expandir
+            </button>
+
             {/* Phone Bezel */}
             <div className="bg-[#1a1b1e] rounded-[2rem] md:rounded-[3rem] p-1.5 md:p-3 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/10 relative">
                {/* Side Buttons */}
@@ -85,11 +133,21 @@ export const Hero: React.FC = () => {
                <div className="bg-white rounded-[1.5rem] md:rounded-[2.2rem] overflow-hidden h-[280px] sm:h-[400px] md:h-[520px] w-full relative border-[3px] border-[#000]">
                   
                   {/* Wrapper to hide scrollbar */}
-                  <div className="h-full w-full overflow-y-auto scrollbar-hide no-scrollbar">
-                    <PagWeb variant="mobile">
-                      {/* Pass 'mobile' variant to force correct fonts and single column grid */}
-                      <DashboardPage variant="mobile" />
-                    </PagWeb>
+                  <div className="h-full w-full overflow-hidden relative">
+                    {/* Scaling Wrapper for Mobile */}
+                    {/* Logic: Force a Virtual Resolution of ~320px width.
+                        Mobile (140px physical): Scale ~0.43 (140/320). Wrapper 232%.
+                        Desktop (260px physical): Scale ~0.81 (260/320). Wrapper 123%.
+                        CRITICAL: Do NOT use h-full, let the percentage height take effect to fix footer position.
+                    */}
+                    <div className="origin-top-left transform overflow-y-auto scrollbar-hide bg-white
+                        scale-[0.43] w-[232%] h-[232%]
+                        md:scale-[0.81] md:w-[123%] md:h-[123%]
+                    ">
+                      <PagWeb variant="mobile">
+                        <DashboardPage variant="mobile" />
+                      </PagWeb>
+                    </div>
                   </div>
                </div>
             </div>

@@ -10,11 +10,12 @@ interface PagWebProps {
 }
 
 export const PagWeb: React.FC<PagWebProps> = ({ children, variant = 'desktop' }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  // Sidebar collapsed by default as requested
+  const [collapsed, setCollapsed] = useState(true);
   const isMobile = variant === 'mobile';
 
   return (
-    <div className={`bg-white overflow-hidden flex flex-col w-full h-full select-none font-sans text-left ${isMobile ? '' : 'rounded-b-lg'}`}>
+    <div className={`bg-white overflow-hidden flex flex-col w-full h-full select-none font-sans text-left relative ${isMobile ? '' : 'rounded-b-lg'}`}>
       
       {/* Browser Bar (Desktop Only) */}
       {!isMobile && (
@@ -44,22 +45,18 @@ export const PagWeb: React.FC<PagWebProps> = ({ children, variant = 'desktop' })
         <div className="flex flex-col flex-1 min-w-0 overflow-hidden relative h-full">
           <TopBar forceMobile={isMobile} />
           
-          <main className={`flex-1 ${isMobile ? 'overflow-y-auto scrollbar-hide' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400'}`}>
+          <main className={`flex-1 ${isMobile ? 'overflow-y-auto scrollbar-hide pb-20' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400'}`}>
             {/* Content Wrapper */}
-            <div className={isMobile ? 'scale-100 pb-20' : ''}>
+            <div className={isMobile ? 'scale-100' : ''}>
               {children}
             </div>
           </main>
           
-          {/* Mobile Bottom Navigation (Visible on mobile view or forced variant) */}
-          {/* Using sticky positioning or just flex item to ensure it stays in view */}
+          {/* Mobile Bottom Navigation - Positioned Absolutely to Stick to Bottom */}
           {isMobile && (
-             <div className="shrink-0 z-50 bg-white">
+             <div className="absolute bottom-0 left-0 right-0 z-50 bg-white">
                 <MobileNav className="flex" />
              </div>
-          )}
-          {!isMobile && (
-             <MobileNav className="md:hidden" />
           )}
         </div>
       </div>

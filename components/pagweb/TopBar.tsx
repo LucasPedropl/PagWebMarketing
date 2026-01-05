@@ -10,20 +10,21 @@ export const TopBar: React.FC<TopBarProps> = ({ forceMobile = false }) => {
     <header className="bg-white border-b border-gray-200 px-4 md:px-6 h-16 flex justify-between items-center shrink-0 z-10 w-full">
       {/* Left: Mobile Brand / Desktop Title */}
       <div className="flex items-center gap-4">
-         <div className={`flex items-center gap-3 ${forceMobile ? 'flex' : 'md:hidden'} text-slate-900`}>
+         <div className={`flex items-center gap-3 ${forceMobile ? 'flex' : 'hidden'} text-slate-900`}>
              <div className="bg-brand-900 p-1.5 rounded text-white shadow-sm">
                 <Wallet size={18} />
              </div>
              <span className="font-bold text-base tracking-tight">PagWeb</span>
          </div>
-         <div className={`${forceMobile ? 'hidden' : 'hidden md:block'}`}>
-            <h2 className="text-xl font-bold text-slate-800">Dashboard Overview</h2>
+         {/* Show on Desktop variant regardless of screen size */}
+         <div className={`${forceMobile ? 'hidden' : 'block'}`}>
+            <h2 className="text-xl font-bold text-slate-800 whitespace-nowrap">Dashboard Overview</h2>
          </div>
       </div>
 
       {/* Right: Actions */}
       <div className="flex items-center gap-3 md:gap-4">
-         <div className={`relative ${forceMobile ? 'hidden' : 'hidden sm:block'}`}>
+         <div className={`relative ${forceMobile ? 'hidden' : 'block'}`}>
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input 
               type="text" 
@@ -38,7 +39,7 @@ export const TopBar: React.FC<TopBarProps> = ({ forceMobile = false }) => {
          </button>
          
          <div className="flex items-center gap-3 pl-2 border-l border-gray-200">
-            <div className={`text-right ${forceMobile ? 'hidden' : 'hidden sm:block'}`}>
+            <div className={`text-right ${forceMobile ? 'hidden' : 'block'}`}>
                <p className="text-sm font-bold text-gray-900 leading-none">Admin</p>
                <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">ERP System</p>
             </div>

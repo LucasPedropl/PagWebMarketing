@@ -42,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
   return (
     <div 
       className={`
-        bg-slate-900 flex flex-col transition-all duration-300 ease-in-out shrink-0 relative hidden md:flex h-full border-r border-slate-800 z-30
+        bg-slate-900 flex flex-col transition-all duration-300 ease-in-out shrink-0 relative flex h-full border-r border-slate-800 z-30
         ${collapsed ? 'w-16' : 'w-52'} 
         overflow-visible
       `}
