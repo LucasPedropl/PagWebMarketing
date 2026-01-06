@@ -53,7 +53,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ variant = 'desktop' })
   ];
 
   return (
-    <div className={`flex flex-col h-full bg-white ${isMobile ? 'p-4' : 'p-8'}`}>
+    <div className={`flex flex-col h-full bg-white ${isMobile ? 'p-4 pb-24' : 'p-8'}`}>
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 shrink-0">

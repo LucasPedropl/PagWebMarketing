@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   LayoutDashboard, Users, Layers, CreditCard, 
-  DollarSign, FileText, Activity, LifeBuoy, Settings,
+  DollarSign, Settings,
   ChevronLeft, ChevronRight, Wallet
 } from 'lucide-react';
 
@@ -83,9 +83,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed, activ
         <SidebarItem icon={Layers} label="Planos" id="plans" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
         <SidebarItem icon={CreditCard} label="Assinaturas" id="subs" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
         <SidebarItem icon={DollarSign} label="Pagamentos" id="payments" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
-        <SidebarItem icon={FileText} label="Relatórios" id="reports" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
-        <SidebarItem icon={Activity} label="Histórico" id="history" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
-        <SidebarItem icon={LifeBuoy} label="Suporte" id="support" activeView={activeView} collapsed={collapsed} onClick={setActiveView} />
       </div>
 
       {/* Footer Settings */}

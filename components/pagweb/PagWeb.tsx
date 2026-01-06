@@ -5,6 +5,9 @@ import { MobileNav } from './MobileNav';
 import { DashboardPage } from './DashboardPage';
 import { ClientsPage } from './ClientsPage';
 import { PlansPage } from './PlansPage';
+import { SubscriptionsPage } from './SubscriptionsPage';
+import { PaymentsPage } from './PaymentsPage';
+import { MenuPage } from './MenuPage';
 import { MoreHorizontal } from 'lucide-react';
 
 interface PagWebProps {
@@ -14,7 +17,7 @@ interface PagWebProps {
 
 export const PagWeb: React.FC<PagWebProps> = ({ children, variant = 'desktop' }) => {
   const [collapsed, setCollapsed] = useState(true);
-  const [activeView, setActiveView] = useState('clients'); // Default to clients as requested by user focus
+  const [activeView, setActiveView] = useState('overview'); // Changed default to overview
   const isMobile = variant === 'mobile';
 
   // Simple Router Switch
@@ -26,6 +29,12 @@ export const PagWeb: React.FC<PagWebProps> = ({ children, variant = 'desktop' })
             return <ClientsPage variant={variant} />;
         case 'plans':
             return <PlansPage variant={variant} />;
+        case 'subs':
+            return <SubscriptionsPage variant={variant} />;
+        case 'payments':
+            return <PaymentsPage variant={variant} />;
+        case 'menu':
+            return <MenuPage variant={variant} setActiveView={setActiveView} />;
         default:
             // For now, other views fallback to dashboard or empty state, 
             // but we keep the UI responsive.
@@ -77,9 +86,9 @@ export const PagWeb: React.FC<PagWebProps> = ({ children, variant = 'desktop' })
         <div className="flex flex-col flex-1 min-w-0 overflow-hidden relative h-full">
           <TopBar forceMobile={isMobile} />
           
-          <main className={`flex-1 ${isMobile ? 'overflow-y-auto scrollbar-hide pb-20' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400'}`}>
+          <main className={`flex-1 ${isMobile ? 'overflow-y-auto scrollbar-hide' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400'}`}>
             {/* Content Wrapper */}
-            <div className={`h-full ${isMobile ? 'scale-100' : ''}`}>
+            <div className={`h-full ${isMobile ? 'scale-100 pb-24' : ''}`}>
               {renderContent()}
             </div>
           </main>

@@ -134,7 +134,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ variant = 'desktop
   return (
     <div className={`
         mx-auto animate-in fade-in duration-500 
-        ${isMobile ? 'p-3 space-y-3 w-full' : 'p-6 space-y-6 max-w-[1400px]'}
+        ${isMobile ? 'p-3 space-y-3 w-full pb-24' : 'p-6 space-y-6 max-w-[1400px]'}
     `}>
       <div className={`${isMobile ? 'hidden' : 'block'}`}>
           <p className="text-gray-500 text-sm">Bem-vindo de volta! Aqui está o que está acontecendo hoje.</p>

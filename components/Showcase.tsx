@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, ChevronLeft, ChevronRight, FileText, User, Plus, Search, Filter, Edit2, Trash2, Crown, Zap } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, FileText, User, Plus, Search, Filter, Edit2, Trash2, Crown, Zap, Calendar, CreditCard, Barcode, ArrowUpRight, ArrowDownRight, MoreHorizontal, Download } from 'lucide-react';
 
 // --- Mockup Components ---
 
@@ -170,58 +170,141 @@ const PlansMockup = () => (
   </div>
 );
 
-const InvoicesMockup = () => (
-    <div className="bg-white rounded-lg p-6 min-h-[400px] flex flex-col gap-6 border border-gray-200">
-        <div className="flex justify-between items-end border-b border-gray-100 pb-4">
-             <div className="space-y-2">
-                <div className="h-5 w-32 bg-gray-800 rounded"></div>
-                <div className="h-3 w-48 bg-gray-300 rounded"></div>
-             </div>
-             <div className="h-8 w-8 bg-gray-100 rounded-full"></div>
+const SubscriptionsMockup = () => (
+    <div className="bg-white rounded-lg p-6 min-h-[400px] flex flex-col gap-6 border border-gray-200 font-sans">
+        {/* Header */}
+        <div className="flex justify-between items-start">
+            <div>
+                <h3 className="font-bold text-gray-900 text-lg tracking-tight">Assinaturas</h3>
+                <p className="text-gray-500 text-xs mt-0.5">Gerencie os planos ativos.</p>
+            </div>
+            <div className="bg-slate-900 text-white px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 shadow-sm">
+                <Plus size={12} strokeWidth={3} />
+                Nova
+            </div>
         </div>
-        <div className="space-y-3">
-             {[1,2,3,4].map((i) => (
-                 <div key={i} className="flex items-center justify-between p-3 border border-gray-100 rounded hover:border-brand-200 hover:bg-brand-50 transition-colors">
-                     <div className="flex items-center gap-3">
-                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${i===2 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
-                             <FileText size={14} />
-                         </div>
-                         <div>
-                             <div className="h-3 w-24 bg-gray-800 rounded mb-1"></div>
-                             <div className="h-2 w-16 bg-gray-400 rounded"></div>
-                         </div>
-                     </div>
-                     <div className="text-right">
-                         <div className="h-3 w-16 bg-gray-800 rounded mb-1 ml-auto"></div>
-                         <div className={`h-2 w-12 rounded ml-auto ${i===2 ? 'bg-red-200' : 'bg-green-200'}`}></div>
-                     </div>
+
+        {/* Search */}
+        <div className="flex gap-2">
+             <div className="relative flex-1">
+                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                 <div className="w-full pl-8 pr-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-400">
+                     Buscar por cliente...
                  </div>
-             ))}
+             </div>
+             <div className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 flex items-center gap-1.5 text-xs font-medium">
+                 <Filter size={12} />
+                 Filtros
+             </div>
+        </div>
+
+        {/* Table */}
+        <div className="flex-1 border border-gray-200 rounded-lg overflow-hidden flex flex-col bg-white">
+             {/* Header */}
+             <div className="bg-gray-50 border-b border-gray-100 flex items-center px-4 py-2.5">
+                 <div className="flex-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Cliente / Plano</div>
+                 <div className="w-24 hidden sm:block text-[10px] font-bold text-gray-400 uppercase tracking-wider">Valor</div>
+                 <div className="w-20 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">Status</div>
+             </div>
+             
+             {/* Rows */}
+             <div className="divide-y divide-gray-100">
+                 {[
+                    { client: "João da Silva", plan: "Premium", method: "Cartão", value: "R$ 89.10", discount: true, status: "Ativa", type: "success" },
+                    { client: "Carlos Ferreira", plan: "Premium", method: "Boleto", value: "R$ 99.00", discount: false, status: "Pendente", type: "warning" },
+                    { client: "Ana Souza", plan: "Básico", method: "Pix", value: "R$ 49.00", discount: false, status: "Ativa", type: "success" }
+                 ].map((sub, i) => (
+                    <div key={i} className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors">
+                        <div className="flex-1 min-w-0 pr-2">
+                             <div className="text-sm font-semibold text-gray-900">{sub.client}</div>
+                             <div className="flex items-center gap-1 text-[10px] text-gray-400">
+                                 <span>{sub.plan}</span>
+                                 <span>•</span>
+                                 <span>{sub.method}</span>
+                             </div>
+                        </div>
+                        <div className="w-24 hidden sm:block">
+                             <div className="text-sm font-bold text-slate-900">{sub.value}</div>
+                             {sub.discount && <div className="text-[9px] text-emerald-600 bg-emerald-50 inline-block px-1 rounded">10% OFF</div>}
+                        </div>
+                        <div className="w-20 flex justify-center">
+                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                 sub.type === 'success' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                             }`}>
+                                 <span className={`w-1 h-1 rounded-full ${sub.type === 'success' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+                                 {sub.status}
+                             </span>
+                        </div>
+                    </div>
+                 ))}
+             </div>
         </div>
     </div>
 );
 
-const PortalMockup = () => (
-  <div className="bg-white rounded-lg min-h-[400px] flex flex-col border border-gray-100">
-    <div className="bg-slate-900 text-white p-4 flex justify-between items-center rounded-t-lg">
-      <div className="h-4 w-24 bg-slate-700 rounded"></div>
-      <div className="h-8 w-8 bg-slate-700 rounded-full"></div>
-    </div>
-    <div className="p-6">
-      <div className="h-6 w-48 bg-gray-200 rounded mb-6"></div>
-      <div className="border rounded-lg p-4 mb-4">
-        <div className="flex justify-between mb-2">
-          <div className="h-4 w-32 bg-gray-100 rounded"></div>
-          <div className="h-4 w-16 bg-green-100 rounded"></div>
+const PaymentsMockup = () => (
+    <div className="bg-white rounded-lg p-6 min-h-[400px] flex flex-col gap-6 border border-gray-200 font-sans">
+        {/* Header */}
+        <div className="flex justify-between items-start">
+            <div>
+                <h3 className="font-bold text-gray-900 text-lg tracking-tight">Pagamentos</h3>
+                <p className="text-gray-500 text-xs mt-0.5">Histórico financeiro.</p>
+            </div>
+            <div className="bg-white border border-gray-200 text-gray-500 px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 shadow-sm">
+                <Download size={12} />
+                Exportar
+            </div>
         </div>
-        <div className="h-8 w-full bg-gray-50 rounded mt-4"></div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="h-24 bg-gray-50 rounded border border-dashed border-gray-200"></div>
-        <div className="h-24 bg-gray-50 rounded border border-dashed border-gray-200"></div>
-      </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3">
+             <div className="border border-gray-200 rounded p-3 bg-gray-50/50">
+                 <div className="text-[10px] text-gray-500 mb-1">Receita (Mês)</div>
+                 <div className="text-lg font-bold text-slate-900">R$ 12.4k</div>
+                 <div className="text-[10px] text-emerald-600 flex items-center gap-0.5"><ArrowUpRight size={10} /> +12%</div>
+             </div>
+             <div className="border border-gray-200 rounded p-3 bg-gray-50/50">
+                 <div className="text-[10px] text-gray-500 mb-1">Pendente</div>
+                 <div className="text-lg font-bold text-slate-900">R$ 1.2k</div>
+                 <div className="text-[10px] text-gray-400">12 transações</div>
+             </div>
+        </div>
+
+        {/* Table List */}
+        <div className="flex-1 border border-gray-200 rounded-lg overflow-hidden flex flex-col bg-white">
+             {/* Header */}
+             <div className="bg-gray-50 border-b border-gray-100 flex items-center px-4 py-2.5">
+                 <div className="flex-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Transação</div>
+                 <div className="w-20 text-right text-[10px] font-bold text-gray-400 uppercase tracking-wider">Valor</div>
+                 <div className="w-20 text-center text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</div>
+             </div>
+             <div className="divide-y divide-gray-100">
+                 {[
+                     { ref: "#TRX-9821", client: "João da Silva", val: "R$ 99,00", status: "Pago", type: "success" },
+                     { ref: "#TRX-9822", client: "Maria Oliveira", val: "R$ 49,00", status: "Pendente", type: "warning" },
+                     { ref: "#TRX-9823", client: "Carlos Ferreira", val: "R$ 149,00", status: "Falha", type: "error" },
+                     { ref: "#TRX-8100", client: "João da Silva", val: "R$ 99,00", status: "Pago", type: "success" }
+                 ].map((trx, i) => (
+                     <div key={i} className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors">
+                         <div className="flex-1 min-w-0 pr-2">
+                             <div className="text-[10px] text-gray-400 font-mono">{trx.ref}</div>
+                             <div className="text-xs font-semibold text-gray-900">{trx.client}</div>
+                         </div>
+                         <div className="w-20 text-right text-xs font-bold text-slate-900">{trx.val}</div>
+                         <div className="w-20 flex justify-center">
+                             <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${
+                                 trx.type === 'success' ? 'bg-emerald-50 text-emerald-600' :
+                                 trx.type === 'warning' ? 'bg-amber-50 text-amber-600' :
+                                 'bg-rose-50 text-rose-600'
+                             }`}>
+                                 {trx.status}
+                             </span>
+                         </div>
+                     </div>
+                 ))}
+             </div>
+        </div>
     </div>
-  </div>
 );
 
 // --- Data ---
@@ -240,7 +323,7 @@ const features = [
     color: "from-brand-100",
     reverse: false
   },
-  // Slide 2 - Planos (ATUALIZADO)
+  // Slide 2 - Planos
   {
     title: "Planos e Preços Flexíveis",
     description: "Crie e edite planos de assinatura que se adaptam ao seu modelo de negócio. Defina ciclos de cobrança (mensal, trimestral, anual) e valores promocionais.",
@@ -253,30 +336,30 @@ const features = [
     color: "from-purple-100",
     reverse: true
   },
-  // Slide 3 - Faturas
+  // Slide 3 - Assinaturas (NOVO MOCKUP)
   {
-    title: "Controle de Faturas e Cobranças",
-    description: "Automatize a geração de faturas e acompanhe quem pagou e quem está inadimplente. O sistema envia lembretes automáticos para recuperar receita.",
+    title: "Gestão de Assinaturas e Recorrência",
+    description: "Centralize o controle de assinaturas ativas. Visualize ciclos, aplique descontos e acompanhe o status de renovação em tempo real.",
     features: [
-      "Listagem de faturas vencidas e a vencer",
-      "Régua de cobrança automática",
-      "Baixa automática via integração bancária"
+      "Vínculo de planos a clientes com 1 clique",
+      "Controle de descontos e promoções",
+      "Visualização clara de status e datas"
     ],
-    mockup: <InvoicesMockup />,
-    color: "from-green-100",
+    mockup: <SubscriptionsMockup />,
+    color: "from-orange-100",
     reverse: false
   },
-  // Slide 4 - Assinaturas / Portal
+  // Slide 4 - Pagamentos (NOVO MOCKUP)
   {
-    title: "Autonomia na Gestão de Assinaturas",
-    description: "Permita que seus clientes visualizem suas próprias assinaturas através do Portal do Cliente, reduzindo a carga operacional do seu suporte.",
+    title: "Controle Financeiro e Pagamentos",
+    description: "Acompanhe o fluxo de caixa com precisão. Identifique pagamentos aprovados, pendentes e falhas instantaneamente para agir rápido.",
     features: [
-      "Cliente visualiza histórico de pagamentos",
-      "Upgrade/Downgrade de plano (Self-service)",
-      "Emissão de 2ª via de boleto"
+      "Dashboard financeiro em tempo real",
+      "Status detalhado de cada transação",
+      "Exportação de relatórios gerenciais"
     ],
-    mockup: <PortalMockup />,
-    color: "from-orange-100",
+    mockup: <PaymentsMockup />,
+    color: "from-green-100",
     reverse: true
   }
 ];
